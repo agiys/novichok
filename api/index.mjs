@@ -1,2 +1,2 @@
-import { handler } from '../src/handler.mjs';
+import { handler } from '../lib/core.mjs';
 export default handler;
