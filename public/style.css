@@ -26,7 +26,7 @@ tbody tr{cursor:pointer}tbody tr:hover{background:var(--bg)}
 dialog{border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--fg);width:min(560px,94vw);padding:18px}
 dialog::backdrop{background:#0006}
 .moods{display:flex;gap:6px;margin:6px 0 12px}
-.moods button.sel{background:var(--acc);color:#fff;border-color:var(--acc)}
+button.sel{background:var(--acc);color:#fff;border-color:var(--acc)}
 .yn{display:flex;justify-content:space-between;align-items:center;margin:6px 0}
 .tl li{margin:4px 0}
 ul{padding-left:18px}
