@@ -2,10 +2,10 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { assess, checklistFor } from './risk.mjs';
-import { seed, MANAGERS } from './seed.mjs';
+import { assess, checklistFor } from '../risk.mjs';
+import { seed, MANAGERS } from '../seed.mjs';
 
-const root = path.dirname(fileURLToPath(import.meta.url));
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DB = path.join(process.env.VERCEL ? '/tmp' : root, 'data.json');
 const PORT = process.env.PORT || 3000;
 let novices = fs.existsSync(DB) ? JSON.parse(fs.readFileSync(DB, 'utf8')) : seed();
