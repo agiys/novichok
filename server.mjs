@@ -6,7 +6,7 @@ import { assess, checklistFor } from './risk.mjs';
 import { seed, MANAGERS } from './seed.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
-const DB = path.join(root, 'data.json');
+const DB = path.join(process.env.VERCEL ? '/tmp' : root, 'data.json');
 const PORT = process.env.PORT || 3000;
 let novices = fs.existsSync(DB) ? JSON.parse(fs.readFileSync(DB, 'utf8')) : seed();
 const save = () => fs.writeFileSync(DB, JSON.stringify(novices, null, 1));
@@ -20,7 +20,7 @@ const body = req => new Promise((res, rej) => {
   req.on('end', () => { try { res(b ? JSON.parse(b) : {}); } catch (e) { rej(e); } });
 });
 
-http.createServer(async (req, res) => {
+export const handler = async (req, res) => {
   const url = new URL(req.url, 'http://x');
   const send = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(JSON.stringify(obj)); };
   try {
@@ -67,4 +67,6 @@ http.createServer(async (req, res) => {
     res.writeHead(200, { 'content-type': mime[path.extname(file)] || 'application/octet-stream' });
     fs.createReadStream(file).pipe(res);
   } catch (e) { send(500, { error: String(e.message) }); }
-}).listen(PORT, () => console.log('http://localhost:' + PORT));
+};
+
+if (!process.env.VERCEL) http.createServer(handler).listen(PORT, () => console.log('http://localhost:' + PORT));
